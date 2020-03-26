@@ -7,7 +7,7 @@ install_requires = [
 
 setup(
     name='fardel_blog',
-    version='1.0.0',
+    version='1.0.1',
     description='Blog plugin for Fardel CMS',
     author='Sepehr Hamzehlouy',
     author_email='s.hamzelooy@gmail.com',

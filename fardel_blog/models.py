@@ -2,8 +2,6 @@ import time
 
 from sqlalchemy.sql.expression import func
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy_utils.types import TSVectorType
-from sqlalchemy_searchable import SearchQueryMixin, make_searchable
 
 from flask_sqlalchemy import BaseQuery
 from flask_babel import lazy_gettext, gettext
@@ -17,16 +15,10 @@ __all__ = (
     'Category', 'Post', 'Tag', 'Comment', 'PostStatus', 'setup_permissions'
 )
 
-make_searchable()
-
 def setup_permissions():
     Comment.setup_permissions()
     Category.setup_permissions()
     Post.setup_permissions()
-
-
-class SearchQuery(BaseQuery, SearchQueryMixin):
-    pass
 
 
 class PostStatus(db.Model):
@@ -110,7 +102,6 @@ class Category(db.Model, SeoModel, AbstractModelWithPermission):
 
 
 class Post(db.Model, SeoModel, AbstractModelWithPermission):
-    query_class = SearchQuery
     __tablename__ = "blog_posts"
     id = db.Column(db.Integer, primary_key=True, index=True)
     
@@ -139,16 +130,6 @@ class Post(db.Model, SeoModel, AbstractModelWithPermission):
     comments = db.relationship("Comment", cascade="all,delete")
     status = db.relationship('PostStatus', lazy="joined")
     tags = db.relationship('Tag', secondary='blog_posts_tags', lazy="selectin")
-
-    # To enable search uncomment following line
-    # search_vector = db.Column(TSVectorType('title', 'content'))
-
-    # And add these lines to alembic migrations
-    # import sqlalchemy_utils
-    # from sqlalchemy_searchable import sync_trigger
-    # conn = op.get_bind()
-    # sync_trigger(conn, 'blog_posts', 'search_vector', ['title', 'content'])
-
 
     class Meta:
         permissions = (

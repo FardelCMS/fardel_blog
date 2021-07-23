@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 install_requires = [
-    "fardel==1.3.1",
+    "fardel==1.3.5",
 ]
 
 setup(

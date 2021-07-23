@@ -127,9 +127,9 @@ class Post(db.Model, SeoModel, AbstractModelWithPermission):
         db.ForeignKey("auth_users.id", ondelete="SET NULL"))
     user = db.relationship("User")
 
-    comments = db.relationship("Comment", cascade="all,delete", viewonly=True)
+    comments = db.relationship("Comment", cascade="all,delete")
     status = db.relationship('PostStatus', lazy="joined")
-    tags = db.relationship('Tag', secondary='blog_posts_tags', lazy="selectin", viewonly=True)
+    tags = db.relationship('Tag', secondary='blog_posts_tags', lazy="selectin")
 
     class Meta:
         permissions = (
@@ -257,7 +257,7 @@ class Tag(db.Model):
     name = db.Column(db.String(64), index=True)
     frequency = db.Column(db.Integer, default=0)
 
-    posts = db.relationship('Post', secondary='blog_posts_tags', lazy='select', viewonly=True)
+    posts = db.relationship('Post', secondary='blog_posts_tags', lazy='select', overlaps="tags")
 
     @staticmethod
     def _bootstrap(count):
@@ -315,7 +315,7 @@ class Comment(db.Model, AbstractModelWithPermission):
     user = db.relationship("User")
     parent_comment = db.relationship('Comment',
         remote_side=[id], lazy="select")
-    replies = db.relationship('Comment', lazy="joined", viewonly=True)
+    replies = db.relationship('Comment', lazy="joined", overlaps="parent_comment")
 
     class Meta:
         permissions = (

@@ -47,7 +47,7 @@ import math
 from sqlalchemy import and_, or_
 from flask import request
 
-from flask_jwt_extended import current_user, jwt_optional
+from flask_jwt_extended import current_user, jwt_required
 
 from fardel.core.rest import create_api, abort, Resource
 from fardel.core.utils import cache_get_key
@@ -166,7 +166,7 @@ class CommentApi(Resource):
     endpoints = ['/posts/<post_id>/comments/']
     method_decorators = {
         'get': [cache.cached(timeout=20)],
-        'post':[jwt_optional],
+        'post':[jwt_required(optional=True)],
     }
     def get(self, post_id):
         """

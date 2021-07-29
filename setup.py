@@ -1,13 +1,9 @@
 from setuptools import setup, find_packages
 
 
-install_requires = [
-    "fardel==1.3.5",
-]
-
 setup(
     name='fardel_blog',
-    version='1.0.3',
+    version='1.1.0',
     description='Blog plugin for Fardel CMS',
     author='Sepehr Hamzehlouy',
     author_email='s.hamzelooy@gmail.com',
@@ -17,7 +13,6 @@ setup(
     package_data={
         'static': ['*.html'],
     },
-    install_requires=install_requires,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
